@@ -424,14 +424,16 @@
 
 			// Function to initialize tables for items in store and cart
 			function initialize(){
-				// Get date and time
-				var now = new Date();
-				var datetime = now.toLocaleString();
+				
+				// Get current date and time
+				const now = new Date();
+				// Convert date and time to string
+				const datetime = now.toLocaleString();
 
-				// Insert date and time into dateArea ID
+				// Display date and time in element with ID 'dateArea'
 				document.getElementById("dateArea").innerHTML = datetime;
 
-				// My Inventory
+				// Create store items
 				const item1 = new Store(1, "Intuition", 30, 20, 3, "Instant", 10, "Topgallant careen sutler topsail six pounders gally chandler long clothes trysail swab. Snow fathom cable carouser pirate marooned gun hulk boatswain booty.",  "Tack keelhaul lee ho hardtack tackle Buccaneer gibbet capstan loaded to the gunwalls.", "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=397633&type=card");
 				
 				const item2 = new Store(2, "Rite of Replication", 22, 30, 2, "Sorcery", 10, "Parrel Yellow Jack take a caulk main sheet bowsprit chantey barque Arr boatswain provost. Bilged on her anchor tack Sail ho dead men tell no tales lugsail wench brigantine topmast mizzenmast gally.", "Cat o'nine tails avast jury mast Barbary Coast killick Pieces of Eight belaying pin wherry black spot spirits.", "https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=519163&type=card");
