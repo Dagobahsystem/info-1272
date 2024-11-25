@@ -241,6 +241,15 @@
 				font-size:  14px;
 			}
 
+			.alert-moderate {
+				display: inline-block;
+				border-radius: 3px;
+				background-color: rgb(201, 136, 24);
+				padding: 4px 10px;
+				color: white;
+				font-size:  14px;
+			}
+			
 			.confirmation {
 				display: inline-block;
 				border-radius: 3px;
@@ -503,7 +512,7 @@
 				if (cartItems.length === 0) {
 
 					// Alert user that cart is empty
-					table = "<p class = 'alert' style='margin-left: 30px'>No items in cart</p>";
+					table = "<p class = 'alert-moderate' style='margin-left: 30px'>No items in cart</p>";
 				} else {
 
 					// Iterate through cart items and add to table
@@ -588,6 +597,9 @@
 				var qtyMessage =  document.getElementById("addQtyValidationMessage");
 				var idMessage = document.getElementById("addIDValidationMessage");
 
+				// reset messages to customer to none
+				idMessage.innerHTML = "";
+				qtyMessage.innerHTML = "";
 
 				// Variable to store found item
 				var foundItem = null;
@@ -649,21 +661,25 @@
 						return;
 					} else {
 
-						// Update total quantity
+						// Confirmation message to customer
+						qtyMessage.innerHTML = `<span class='confirmation'>Item has been added to cart</span>`;
+						// Update total quantity of foundCartItem
 						foundCartItem.quantity += inputQty;
 					}
 				// if not found add new item to cart
 				} else {
+					// Confirmation message to customer
+					qtyMessage.innerHTML = `<span class='confirmation'>Item has been added to cart</span>`;
+					// Create new cart item
 					newCartItem = new Cart(foundItem.id, foundItem.priceCdn, inputQty, foundItem.costShip);
+					// Add new cart item to cartItems array
 					cartItems.push(newCartItem);
 				}
 				
 				// Remove quantity of the foundItem variable
 				foundItem.quantity -= inputQty;
 
-				// reset messages to customer to none
-				idMessage.innerHTML = "";
-				qtyMessage.innerHTML = "";
+				
 				
 				// run function to display store items and cart items
 				displayStoreItems();
@@ -682,6 +698,10 @@
 				// variables to fetch where messages for customers
 				var qtyMessage =  document.getElementById("addQtyValidationMessage");
 				var idMessage = document.getElementById("addIDValidationMessage");
+
+				// Reset messages to none
+				idMessage.innerHTML = "";
+				qtyMessage.innerHTML = "";
 				
 				// variables to store found items and cart items
 				foundItem = null;
@@ -723,22 +743,27 @@
 					
 					// Alert customer if cart quantity is zero
 					if(foundCartItem.quantity < inputQty) {
-						qtyMessage.innerHTML = `<span class='alert'>There are no more items.</span>`;
+						qtyMessage.innerHTML = `<span class='alert'>There are no more items in your cart.</span>`;
 					} 
-
+					
 					// Update quantity of cart items and found items
 					foundCartItem.quantity -= inputQty;
+					// Update quantity of found items
 					foundItem.quantity += inputQty;
+
+					// Confirmation message to customer
+					qtyMessage.innerHTML = `<span class='confirmation'>Item has been removed from cart</span>`;
 				}
 
 				// Validates if cart is empty and removes items from cartItems
 				if(foundCartItem.quantity < 1) {
 					cartItems.splice(index, 1);
+
+					// Confirmation message to customer
+					qtyMessage.innerHTML = `<span class='confirmation'>Item has been removed from cart</span>`;
 				}
 				
-				// Reset messages to none
-				idMessage.innerHTML = "";
-				qtyMessage.innerHTML = "";
+				
 
 				// Run functions
 				displayStoreItems();
