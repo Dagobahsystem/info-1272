@@ -1,0 +1,110 @@
+<!--
+Name: Dagoberto Henriquez
+Date: 10/09/2024
+-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>MidTerm Test</title>
+	</head>
+	<body>
+
+
+		<!-- Javascript -->
+		<script>
+
+
+			// VARIABLES
+			var balance = 5000.00;		
+			const INTEREST_RATE = 0.05;		
+
+
+			// FUNCTIONS
+			//Prompt user to deposit funds into their account
+			function deposit() {
+				var deposit = parseInt(prompt("How much would you like to deposit?"))
+				var oldBalance = parseInt(balance);
+				balance = parseInt(balance) + deposit;
+
+				alert("Deposit: $" + deposit.toFixed(2) + "\nBalance: $" + oldBalance.toFixed(2) + " -> $" + balance.toFixed(2));
+
+			}
+
+
+			//Prompt customer to withdraw from their account
+			function withdraw() {
+					
+				var withdraw = parseInt(prompt("How much would you like to withdraw?"));
+
+				while(withdraw > balance) {
+					alert("Insufficient funds for withdrawal!")
+					withdraw = parseInt(prompt("How much would you like to withdraw?"));
+				}
+
+				var oldBalance = parseInt(balance);
+				balance = parseInt(balance) - withdraw;
+
+				alert("Withdraw: $" + withdraw.toFixed(2) + "\nBalance: $" + oldBalance.toFixed(2) + " -> $" + balance.toFixed(2));
+
+			}
+
+
+			//View account balance
+			function viewBalance() {
+				alert("Current Balance: $" + balance.toFixed(2));
+			}
+
+
+			//Calculate interest on months entered by customer
+			function calculateInterest() {
+				numMonths = parseInt(prompt("How many months would you like to use?"))
+				var newBalance = balance;
+
+				console.log("Projected " + numMonths + " months worth of interest...")
+				for(var i = 1; i <= numMonths; i++) {
+
+					
+					var interestEarned = newBalance * INTEREST_RATE;
+					newBalance += interestEarned;
+					var oldBalance = newBalance - interestEarned;
+
+					console.log("Month " + i + ": " + oldBalance.toFixed(2) + " x " + INTEREST_RATE + "% = $" + newBalance.toFixed(2))
+				}
+			}
+
+
+			// Call the functions based on customer selection
+			var custAction = true;
+
+			do {
+
+				var transactionType = prompt("What type of transaction would you like to do? \nB - View Balance\nD - Deposit\nW - Withdraw\nC - Calculate Interest").toLowerCase();
+			
+				if (transactionType !== "b" && transactionType !== "d" && transactionType !== "w" && transactionType !== "c") {
+					
+					alert("You entered a wrong selection.  Please try again.")
+					continue;
+				}
+
+				if(transactionType === "b") {
+					viewBalance();
+				} else if (transactionType === "d") {
+					deposit();
+				} else if (transactionType === "w") {
+					withdraw();
+				} else if (transactionType === "c") {
+					calculateInterest();
+				}
+
+				custAction = confirm("Would you like to perform another transaction? OK == YES | Cancel == NO")
+
+				} while(custAction === true);
+
+				if(custAction === false) {
+					alert("Thank you for using our services.  Have a great day!")
+				}
+		
+
+		</script>
+	</body>
+</html>

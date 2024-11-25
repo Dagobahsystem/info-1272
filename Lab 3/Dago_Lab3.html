@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 3</title>
+</head>
+<body>
+    <h1>Fast Food Ordering</h1>
+    <script>
+
+        /*
+        Name: Dagoberto Henriquez
+        Project: Lab 3
+        Submission Date: October 6, 2024
+        */
+
+
+        // Cost of each meal
+        const mealA = 8.50;
+        const mealB = 7.50;
+        const mealC = 9.95;
+        const mealD = 10.95;
+
+        // Tracks how many times the meal has been selected
+        var mealACount = 0;
+        var mealBCount = 0;
+        var mealCCount = 0;
+        var mealDCount = 0;
+
+        // Tracks total meal count
+        var mealCount = 0;
+        
+        // Tracks how many customers
+        var customerCount = 0;
+
+        // Total price of entire order
+        var totalOrderPrice = 0;
+
+       do {
+
+        // Prompt customer to enter how many people will be ordering
+        var numPeople = parseInt(prompt("How many people are ordering food?", 4));
+
+        for (var i = 1; i <= numPeople; i++) {
+
+            var ordering = true; // true while customer orders
+
+            //Prompt customer to select from the Menu
+            var order = prompt("Hello Customer " + i + "\nPlease select from our Menu:\nA - Hamburger and Fries: $8.50\nB - Soup and Salad: $7.50\nC - Turkey Wrap and Veggies: $9.95\nD - Hot Dog and Onion Rings: $10.95").toLowerCase();
+
+            if (order === "a") { //if option A is selected
+                mealACount ++; //Increment Meal Count A
+                mealCount ++; //Increment Total Meal Count
+                totalOrderPrice = totalOrderPrice + mealA;
+            } else if (order === "b") { //if option B is selected
+                mealBCount ++; //Increment Meal Count B
+                mealCount ++; //Increment Total Meal Count
+                totalOrderPrice = totalOrderPrice + mealB;
+            } else if (order === "c") { //if option C is selected
+                mealCCount ++; //Increment Meal Count C
+                mealCount ++; //Increment Total Meal Count
+                totalOrderPrice = totalOrderPrice + mealC;
+            } else if (order === "d") { //if option D is selected
+                mealDCount ++; //Increment Meal Count D
+                mealCount ++; //Increment Total Meal Count
+                totalOrderPrice = totalOrderPrice + mealD;
+            } else {
+                alert("Wrong option entered.  Please enter either A, B, C or D."); //Alert customer if wrong selection is entered
+                i--; //Decrement i count to ensure correct Customer is selecting order
+                continue;
+            }
+
+        }
+
+        var ordering = confirm("Would you like to order another meal?"); //Ask customer to continue ordering or to complete order
+
+        customerCount ++; //Increment customer count
+
+        //Write to document customers current order
+        document.write("<p>Customer " + customerCount + " here is your order:</p>" +
+            "<p>" + mealACount + " of Meal Option A</p>" + 
+            "<p>" + mealBCount + " of Meal Option B</p>" +
+            "<p>" + mealCCount + " of Meal Option C</p>" +
+            "<p>" + mealDCount + " of Meal Option D</p>" +
+            "<p>The total of your " + mealCount + " meal(s) is $" + totalOrderPrice.toFixed(2) + "</p>"); 
+
+    } while(ordering); 
+
+    //Write to document full order.
+    document.write("<p>--------------------------------------</p>" +
+            "<p>Total number of Meal A: " + mealACount + "</p>" + 
+            "<p>Total number of Meal B: " + mealBCount + "</p>" +
+            "<p>Total number of Meal C: " + mealCCount + "</p>" +
+            "<p>Total number of Meal D: " + mealDCount + "</p>" +
+            "<p>The grand total for " + mealCount + " customers is $" + totalOrderPrice.toFixed(2) + "</p>" +
+            "<p>--------------------------------------</p>"); 
+
+ 
+    </script>
+    
+</body>
+</html>

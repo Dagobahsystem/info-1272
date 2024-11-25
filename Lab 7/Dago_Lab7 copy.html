@@ -1,0 +1,160 @@
+<html>
+    <head>
+        <title>Lab 7</title>
+        <style>
+            body {
+                background-color: skyblue;
+            }
+            
+            table, td, th {
+                padding: 5px;
+                border: 1px double black;
+            }
+
+            .ineligible {
+                background-color: salmon;
+            }
+
+            .eligible {
+                background-color: sandybrown;
+            }
+
+            .vaccinated {
+                background-color: lightgreen;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>IWD Vaccine Elibility</h1>
+        Eligible Age: <input id="iEligibleAge" type="number" placeholder="Age" value="70" onchange="displayTable()">
+        <hr>
+        <p>Patients:</p>
+        <div id="patientOutput">
+            
+        </div>
+        <script>
+            // Data Members
+            var aPatients = [];
+
+            // Calls
+            createPatients(100);
+            
+            // Constructors
+            function Patient(n, bd, v)
+            {
+                this.name = n;
+                this.birthDate = bd;
+                this.vaccinated = v;
+
+                // Method - age()
+                // return this patients age relative to the present Date
+                this.age = function () {
+                    
+                }
+
+            }
+            
+
+            // Fetch value from input
+            var iEligibleAge = document.getElementById("iEligibleAge").value;
+
+            // Get current year
+            const currentYear = new Date().getFullYear();
+
+            // variable to store date, year and month
+            var date = null;
+            var month = null;
+            var year = null;
+
+            // Variable to store found person and age
+            var foundPersonAge = null;
+            var foundPerson = null;
+            
+
+
+
+            // Functions 
+            function createPatients(num)
+            {
+                // Create Random Patients
+                var names = ["Emily","Hannah","Madison","Ashley","Sarah","Alexis","Samantha","Jessica","Elizabeth","Taylor","Lauren","Alyssa","Kayla","Abigail","Brianna","Olivia","Emma","Megan","Grace","Victoria","Rachel","Anna","Sydney","Destiny","Morgan","Jennifer","Jasmine","Haley","Julia","Kaitlyn","Nicole","Amanda","Katherine","Natalie","Hailey","Alexandra","Savannah","Chloe","Rebecca","Stephanie","Maria","Sophia","Mackenzie","Allison","Isabella","Amber","Mary","Danielle","Gabrielle","Jordan","Brooke","Michelle","Sierra","Katelyn","Andrea","Madeline","Sara","Kimberly","Courtney","Erin","Brittany","Vanessa","Jenna","Jacqueline","Caroline","Faith","Makayla","Bailey","Paige","Shelby","Melissa","Kaylee","Christina","Trinity","Mariah","Caitlin","Autumn","Marissa","Breanna","Angela","Catherine","Zoe","Briana","Jada","Laura","Claire","Alexa","Kelsey","Kathryn","Leslie","Alexandria","Sabrina","Mia","Isabel","Molly","Leah","Katie","Gabriella","Cheyenne","Cassandra","Tiffany","Erica","Lindsey","Kylie","Amy","Diana","Cassidy","Mikayla","Ariana","Margaret","Kelly","Miranda","Maya","Melanie","Audrey","Jade","Gabriela","Caitlyn","Jacob","Michael","Matthew","Joshua","Christopher","Nicholas","Andrew","Joseph","Daniel","Tyler","William","Brandon","Ryan","John","Zachary","David","Anthony","James","Justin","Alexander","Jonathan","Christian","Austin","Dylan","Ethan","Benjamin","Noah","Samuel","Robert","Nathan","Cameron","Kevin","Thomas","Jose","Hunter","Jordan","Kyle","Caleb","Jason","Logan","Aaron","Eric","Brian","Gabriel","Adam","Jack","Isaiah","Juan","Luis","Connor","Charles","Elijah","Isaac","Steven","Evan","Jared","Sean","Timothy","Luke","Cody","Nathaniel","Alex","Seth","Mason","Richard","Carlos","Angel","Patrick","Devin","Bryan","Cole","Jackson","Ian","Garrett","Trevor","Jesus","Chase","Adrian","Mark","Blake","Sebastian","Antonio","Lucas","Jeremy","Gavin","Miguel","Julian","Dakota","Alejandro","Jesse","Dalton","Bryce","Tanner","Kenneth","Stephen","Jake","Victor","Spencer"];
+                var yearMin = 1920;
+                var yearMax = 2010;
+
+                for (var i = 1; i <= num; i++)
+                {
+                    var n = names[randInRange(0, names.length-1)];
+                    // yyyy-mm-dd
+                    var bd = new Date(randInRange(yearMin, yearMax).toString() + "-" + randInRange(1, 12).toString() + "-" + randInRange(1, 28).toString());
+                    var v = Boolean(randInRange(0, 1)).valueOf();
+                    var p = new Patient(n, bd, v);
+                    aPatients.push(p);
+                }
+
+                function randInRange(min, max)
+                {
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                }
+            }
+
+            // Function to display table with patient info and class
+            function displayTable() {
+
+                // Variable to store table
+                var table = "";
+
+                // Begin table build
+                table += "<table><tr>";
+                table += "<th>Patient Name</th><th>Date of Birth</th><th>Age (Eligibility)</th></tr>";
+
+                // Iterate through patients to output patient information
+                // for(var i = 0; i < aPatients.length; i++) {
+
+                    // Add current patient to foundPerson
+                    
+
+                    age(aPatients);
+
+                    // foundPerson = aPatients[i];
+
+                    // Build table
+                    table += "<tr>";
+                    table += `<td>${foundPerson.name}</td>`;
+                    table += `<td>${month} ${year}</td>`;
+                    
+                    // Validate and added classes based on vaccinated status and age eligibility
+                    if(foundPerson.vaccinated === false && foundPersonAge >= iEligibleAge) {
+                        table += `<td class="eligible">${foundPersonAge}</td>`;
+                    } else if(foundPerson.vaccinated === false && foundPersonAge <= iEligibleAge) {
+                        table += `<td class="ineligible">${foundPersonAge}</td>`;
+                    } else if(foundPerson.vaccinated === true) {
+                        table += `<td class="vaccinated">${foundPersonAge}</td>`;
+                    }
+
+                    table += "</tr>";
+                // }
+
+                function age(personAge) {
+                    for(var i; i < personAge.length; i++) {
+
+                        foundPerson = personAge[i];
+
+                        date = personAge.birthDate;
+                        month = date.toLocaleString("default", { month: "long" });
+                        year = date.getFullYear();
+                        foundPersonAge = currentYear - year;
+                    }
+                }
+
+                // Output to patientOutput ID
+                document.getElementById("patientOutput").innerHTML = table;
+             }
+
+            //  Load function when window loads
+             window.onload = displayTable();
+
+ 
+
+        </script>
+    </body>
+</html>

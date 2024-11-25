@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			body {
+				font-family: Arial;
+				color: #010211;
+				font-size: 125%;
+			}
+			.advisor {
+			  width: 58%;
+			  height: 300px;
+			  background: #F8F8FF;
+			  float: left;
+				padding: 1%;
+			}
+
+			.appointment {
+			  width: 38%;
+			  height: 300px;
+			  background: #DCDCDC;
+				float: right;
+				padding: 1%;
+			}
+
+			input[type="button"] {
+				background-color: rgb(85, 85, 219);
+				border: none;
+				color: white;
+				padding: 12px 32px;
+				text-align: center;
+				display: inline-block;
+				font-size: 12px;
+				margin: 3px 2px;
+				cursor: pointer;
+			}
+
+	</style>
+	</head>
+	<body>
+		<h1>Appointment Booking</h1>
+		<hr>
+
+
+		  <div class="advisor">
+				<!-- Counsellor informaiton -->
+				<div style="float:left; width:48%;">
+					<h2>Academic Advisors</h2>
+					<div id="advisorInfo">Advisor info here</div><br>
+
+					<input type="button" value="Next" onclick="nextAdvisor();">
+
+				</div>
+
+				<!-- Appointments available -->
+				<div style="float:right; width: 48%;">
+					<h2>Availability:</h2>
+				 <div id="advisorTimes">Appointments here </div><br>
+
+				</div>
+			</div>
+		  <div class="appointment">
+				<h2>Booked Appointments:</h2>
+				<div id="apptOutput">Appointment info here</div><br>
+				<input type="button" value="Next" onclick="nextAppoint();">
+			</div>
+
+			<!-- Booking form -->
+			<div>
+				<h2>Book an Appointment</h2>
+				Student Name: <input id="aptName" type="text"><br><br>
+				Appointment Time 24 hours (Enter time between 9 and 17):
+				<input id="aptTime" type="number"><br><br>
+				Type: <input id="aptService" type="text"><br><br>
+				<input type="button" value="Book" onclick="makeAppointment();"> 
+			</div>
+
+			<!-- Javascript here -->
+
+        <script>
+
+            // Constructor for advisors
+            function Advisor(firstName, lastName, appointment, services) {
+                this.firstName = firstName;
+                this.lastName = lastName;
+                this.appointmentTime = appointment;
+                this.servicesAvailable = services;
+            }
+
+            // Constructor for appointments
+            function Appointment(advisor, student, time, service) {
+                this.advisor = advisor;
+                this.student = student;
+                this.time = time;
+                this.serviceSelected = service;
+            }
+
+            // Arrays to store advisors and appointments
+            var advisors = [];
+            var appointments = [];
+
+            // Counter to track advisors and appointment
+            var advisorIndex = 0;
+            var appointmentIndex = 0;
+
+            // Advisor examples
+            const advisor1 = new Advisor("Tony","Stark",[9, 11, 12, 13],["mathematics", "writing"]);
+            const advisor2 = new Advisor("John","Snow",[11, 12, 14, 16],["resume", "portfolio"]);
+            const advisor3 = new Advisor("Sammy","Davis",[10, 13, 14, 15],["grammar", "javascript"]);
+
+            // Push to advisor constructor
+            advisors.push(advisor1, advisor2, advisor3);
+
+
+            // Function to display current advisor details  
+            function displayAdvisor(advisor) {
+
+                // Display advisor in ID advisorInfo
+                document.getElementById("advisorInfo").innerText = `
+                    First Name: ${advisor.firstName} 
+                    Last Name: ${advisor.lastName} 
+                    Services: ${advisor.servicesAvailable.join(", ")}`;
+
+                // Call displayAvailability function
+                displayAvailability(advisor);
+            }
+
+
+            // Function to display time based on current advisor
+            function displayAvailability(advisor) {
+                
+                // Display available times in ID advisorTimes
+                document.getElementById("advisorTimes").innerText = `
+                    Available Times: ${advisor.appointmentTime.join(":00, ")}:00`;
+            }
+
+            // Function to display appointments
+            function displayAppointment(appointment){
+				
+                // Check to see if any appointment is booked
+                if (appointment) {
+                    document.getElementById("apptOutput").innerText = `
+                        Advisor Name: ${appointment.advisor} 
+                        Student Name: ${appointment.student} 
+                        Appointment Time: ${appointment.time}:00
+                        Service: ${appointment.serviceSelected}`;
+                } else {
+                    document.getElementById("apptOutput").innerText = "There is no appointment booked.";
+                }
+
+            }
+
+            // Function to make an appointment
+            function makeAppointment() {
+
+				// Retrieve student inputs
+				const studentName = document.getElementById("aptName").value;
+				const appointmentTime = parseInt(document.getElementById("aptTime").value);
+				const serviceType = document.getElementById("aptService").value;
+
+				// Retrieve current advisor
+				var currentAdvisor = advisors[advisorIndex];
+
+				// Validate that student input of appointment and service matches advisor
+				if (currentAdvisor.appointmentTime.includes(appointmentTime) && currentAdvisor.servicesAvailable.includes(serviceType)) {
+
+					alert("Valid appointment!");		// Advise user that appointment is valid
+
+					// New appointment
+					var newAppointment = new Appointment(currentAdvisor.firstName, studentName, appointmentTime, serviceType);
+
+					// Add to Appointment constructor
+					appointments.push(newAppointment);
+
+					// Validate that we have a new appointment
+					if(appointments.length === 1){
+
+						// Run function to display new appointment
+						displayAppointment(newAppointment);
+
+						// Will match student appointment with advisor appointment and remove it from array 
+						currentAdvisor.appointmentTime = currentAdvisor.appointmentTime.filter(time => time !== appointmentTime);
+						displayAvailability(currentAdvisor);
+						
+						// Clear input fields
+						document.getElementById("aptName").value = "";
+						document.getElementById("aptTime").value = "";
+						document.getElementById("aptService").value = "";
+					}
+					} else {
+						alert("Invalid appointment. Please check the time and service."); // Advise user appointment is invalid
+					}
+			}
+
+            // Function to select next advisor
+			function nextAdvisor() {
+				
+				// Formula will cycle through advisor array
+				advisorIndex = (advisorIndex + 1) % advisors.length;
+				// Run function to display updated advisors  based on new index
+				displayAdvisor(advisors[advisorIndex]);
+			}
+
+            // function to select next appointment
+			function nextAppoint() {
+				if (appointments.length > 0) {
+
+					// Formula will cycle through appointment array
+					appointmentIndex = (appointmentIndex + 1) % appointments.length;
+					// Run function to display updated appointment times based on new index
+					displayAppointment(appointments[appointmentIndex]);
+				}
+			}
+
+            // Load displayAdvisor function on window load
+            window.onload = displayAdvisor(advisors[advisorIndex]);
+            window.onload = displayAppointment(appointments[appointmentIndex]);
+
+
+
+
+            
+
+
+        </script>
+
+	</body>
+</html>

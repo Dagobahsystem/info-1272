@@ -1,0 +1,165 @@
+<!--
+	Name: Dago Henriquez
+	Date: 10/27/2024
+	Purpose: Grocery Store
+-->
+<!DOCTYPE html>
+<html>		
+	<body style="background-color: #aaffcd;">
+		<h1>Grocery Store</h1>
+		
+		<hr>
+		
+		<!-- Department Selection Area -->
+		<h3>Department</h3>
+		<div id="radioButtons" style="border: 1px solid black; padding: 5px; background-color: #ffffff;">
+			<p>
+				<input type="radio" id="rbProduce" name="department" onclick="displayProducts();">
+				Produce
+			</p>
+			<p>
+				<input type="radio" id="rbBakery" name="department" onclick="displayProducts();">
+				Bakery
+			</p>
+			<p>
+				<input type="radio" id="rbMeat" name="department" onclick="displayProducts();">
+				Meats
+			</p>
+			<p>
+				<input type="radio" id="rbCheese" name="department" onclick="displayProducts();">
+				Cheese
+			</p>
+			
+		</div>
+		
+		<hr>
+		
+		<!-- Product Output Area -->
+		<h3>Products Available</h3>
+		<div id="productOutput" style="border: 1px solid black; padding: 5px; background-color: #ffffff;">[Select a Department]</div>
+		
+		<!-- Add Product to Department -->
+		<p>Add Product:
+			<input type="text" id="product">
+			<input type="button" value="Add Product" onclick="addProduct();">
+		</p>
+		
+		<hr>
+		
+		<!-- Product Selection Field -->
+		<h3>Shopping Cart</h3>
+		
+		<p>Add Item #
+			<select id="itemNumDropdown"><option selected disabled value=null>00</option></select>
+			 to Cart:
+			<input type="button" value="Add to Cart" onclick="">
+		</p>
+		
+		<!-- Product Output Area -->
+		<div id="cartOutput" style="border: 1px solid black; padding: 5px; background-color: #ffffff;">[Add an Item to Cart]</div>
+		
+		<!-- Javascript -->
+		<script>
+        
+        
+        ////////// VARIABLES //////////
+        
+        // Array for each department
+        var produce = ["Apple", "Banana", "Mango", "Grape", "Pear", "Broccoli"];
+        var bakery = ["Baguette", "Pumpkin Pie", "Chocolate Cookies"];
+        var meat = ["Beef", "Chicken", "Ham", "Turkey"];
+        var cheese = ["Cheddar", "Swiss", "Gouda", "Havarti", "Asiago"];
+
+        // Empty shopping cart array
+        var shoppingCart = [];
+        
+        // Variable for each radio button
+        var produceRadio = document.getElementById("rbProduce");
+        var bakeryRadio = document.getElementById("rbBakery");
+        var meatRadio = document.getElementById("rbMeat");
+        var cheeseRadio = document.getElementById("rbCheese");
+
+        // Empty Array to hold department array selected
+        var selectedDept = [];
+       
+        
+
+        ////////// FUNCTIONS //////////
+
+        // Validate what department selected in radio selection
+        function selectedDepartment() {
+
+            // Validate which radio button selected
+            if(produceRadio.checked){
+                selectedDept = produce;
+            } else if(bakeryRadio.checked) {
+                selectedDept = bakery;
+            } else if(meatRadio.checked) {
+                selectedDept = meat;
+            } else if(cheeseRadio.checked) {
+                selectedDept = cheese;
+            } else {
+                alert("Please select a department.")
+                return;
+            }
+        }
+    
+        // Display products by department
+        function displayProducts(){
+
+            // Variable for the productOutput div
+            var productOutput = document.getElementById("productOutput");
+
+            // Validate which radio button selected
+            selectedDepartment();
+
+            // Display selected department in productOutput div
+            productOutput.innerHTML = selectedDept.join(", ");
+
+        }
+
+
+        // Adds Product to Department
+        function addProduct(){
+            
+            // variable for product text box
+            var productTextBox = document.getElementById("product");
+            
+            // Value of product textbox
+            var newProduct = productTextBox.value;
+
+            
+            // Validate which radio button selected
+            selectedDepartment();
+
+            // Validate if product is in list
+            if (selectedDept.includes(newProduct)) {
+                alert("This product already exists.") 
+            } else {
+                // Push to department array
+                selectedDept.push(newProduct);
+            }
+
+            // Clear product text field
+            productTextBox.value = "";
+
+            // Display updated products for selected Department
+            displayProducts();      
+        }
+
+        function addItemToCart(){
+
+
+            // Validate which radio button selected
+            selectedDepartment();
+
+        }
+
+        function removeItem(){
+
+        }
+
+						
+		</script>
+	</body>
+</html>	

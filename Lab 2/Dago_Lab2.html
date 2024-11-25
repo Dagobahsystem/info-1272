@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 2</title>
+</head>
+<body>
+    <h1>Internet Service Calculator</h1>
+    <script>
+
+        /*
+        Name: Dagoberto Henriquez
+        Project: Lab 2
+        Submission Date: September 28, 2024
+        */
+
+        var pricing = "";
+        
+        // Prompt user for billing month
+        var billingMonthNum = parseInt(prompt("Welcome. Let's find out your internet package pricing.  Please provide the month of the Bill? (i.e. January = 1)", 1));
+
+        // Prompt user for billing year
+        var billingYear = parseInt(prompt("Please provide the billing year (i.e. 2024)", 2024));
+
+        // Prompt user for internet package
+        var internetPackage = parseInt(prompt("Please enter your internet package.  (i.e. (1, 2 or 3))", 1));
+
+        // Array for months of the year
+        const billingMonth = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+        // Outputs the numerical month into the text version of month.  i.e 1 = January
+        billingMonthText = (billingMonth[billingMonthNum - 1]);
+
+        // Prompt user for internet hours used for billing period
+        var hoursUsed = parseInt(prompt("Enter the hours for " + billingMonthText + " " + billingYear, 10));
+
+
+        // Pricing output based on internet package selected and hours used
+        if (internetPackage === 1) 
+        {
+            if (hoursUsed <= 10) 
+            {
+                pricing = 9.95;
+            } else 
+            {
+                pricing = 9.95 + ((hoursUsed - 10) * 2);
+            }
+        } else if (internetPackage === 2)
+        {
+            if (hoursUsed <= 20) 
+            {
+                pricing = 13.95;
+            } else 
+            {
+                pricing = 13.95 + ((hoursUsed - 20) * 1);
+            }     
+
+        } else if (internetPackage === 3)
+        {
+            pricing = 19.95;
+        }
+
+
+        // Write to the document the customers internet package and pricing based on their inputs
+        document.write("<p>Service Bill for " + billingMonthText + " " + billingYear +"</p>");
+        document.write("<p>Internet Package: " + internetPackage + "</p>");
+        document.write("<p>Hours Used: " + hoursUsed + "</p>")
+        document.write("<p>Pricing: $" + pricing + "</p>")
+        
+    </script>
+    
+</body>
+</html>
